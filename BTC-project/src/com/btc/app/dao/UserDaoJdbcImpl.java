@@ -105,7 +105,7 @@ public class UserDaoJdbcImpl implements UserDao {
 			int option;
 			System.out.println();
 			System.out.println("Enter option");
-			System.out.println("1.FAvorite article\t 2.All article");
+			System.out.println("1.FAvorite article\t 2.All article\t 3.Recommended Article\t 4.Exit");
 			option=scanner.nextInt();
 			switch(option)
 			{
@@ -293,7 +293,84 @@ public class UserDaoJdbcImpl implements UserDao {
 
 
 			break;
-			case 3:System.exit(1);
+			case 3:System.out.println("Recomended News Articles");
+			
+			try
+			{
+			String recquery="select title from news where likecount>0";
+			smt=con.prepareStatement(recquery);
+			//smt.setString(1,desc);
+			ResultSet rq1=smt.executeQuery();
+			// System.out.println(rs1);
+			List<String>recArt=new ArrayList<>();
+			while(rq1.next())
+			{
+				System.out.println(rq1.getString("title")+"\t");
+				recArt.add(rq1.getString("title"));
+				
+			}
+			int no=1;
+			while(no!=0)
+			{
+			System.out.println("Enter the news title to read content");
+			String cont=scanner.next();
+			scanner.nextLine();
+			//title exist or not
+			
+			String querytitle="select count(*) from news where title=?";
+			smt=con.prepareStatement(querytitle);
+			smt.setString(1,cont);
+			ResultSet queryTitle=smt.executeQuery();
+			queryTitle.next();
+			int countTitle=queryTitle.getInt(1);
+			//System.out.println("Total"+count);
+			if(countTitle<1)
+			{
+				System.out.println("News title doesnot exist");
+				//throw new InvalidIdException("Content doesnot exist");
+			}
+			
+			
+			
+			String descquery="select content from news where title=?";
+			smt=con.prepareStatement(descquery);
+			smt.setString(1,cont);
+			ResultSet rq2=smt.executeQuery();
+			// System.out.println(rs1);
+			while(rq2.next())
+			{
+				System.out.println(rq2.getString("content")+"\t");
+				System.out.println("Did you like the content,if(yes) press 1 else press 0");
+				int like=scanner.nextInt();
+				if(like==1)
+				{
+					String likeSQL="update news set likecount=likecount+1 where title=?";
+					smt=con.prepareStatement(likeSQL);
+					//Employee emp=null;
+					smt.setString(1, cont);
+					smt.executeUpdate();
+					System.out.println("databse updated successfully");
+				}
+			}
+				System.out.println("1.continue 0.Exit");
+				no=scanner.nextInt();
+				if(no==1)
+				{
+					System.out.println("News Title");
+					recArt.forEach((k)->System.out.println(k));
+				}
+				
+				rq2.close();
+				
+			}
+			rq1.close();
+			
+			}
+			catch(SQLException s){						
+				s.printStackTrace();
+			}
+			break;
+			case 4:System.exit(1);
 			break;
 			default:
 				System.out.println("WRong option");
