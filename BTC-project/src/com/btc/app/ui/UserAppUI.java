@@ -3,6 +3,7 @@ package com.btc.app.ui;
 import java.sql.SQLException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -27,19 +28,28 @@ public class UserAppUI {
 	public void addUser()
 	{
 		System.out.println("Enter User details ");
+		try {
 		System.out.print("User Id:");
 		int userId=scanner.nextInt();
 		user.setUserid(userId);
+		}
+		catch(InputMismatchException e)
+		{
+		System.out.println("Enter Integer type data");
+		}
 		System.out.print("User Name:");
 		String userName=scanner.next()+scanner.nextLine();
 		user.setUsername(userName);
 		System.out.print("Password:");
 		String Password=scanner.next()+scanner.nextLine();
 		user.setPassword(Password);
-		System.out.print("Favorite Category:");
+		System.out.print("please select the Favorite Category from below list:");
 		List<String> favCategory=new ArrayList<>();
 		favCategory.add("crime");
 		favCategory.add("Entertainment");
+		favCategory.add("Sports");
+		favCategory.add("Politics");
+		favCategory.forEach((k)->System.out.println(k));
 		while(true)
 		{	
 		String favCat=scanner.next()+scanner.nextLine();
@@ -48,7 +58,7 @@ public class UserAppUI {
 			user.setFavCategory(favCat);
 			break;
 		}
-		System.out.println("Enter favorite category in below list");
+		System.out.println("please select favorite category in the below list only");
 		favCategory.forEach((k)->System.out.println(k));
 		}
 		//user=new User(userId,userName,Password,favCat);

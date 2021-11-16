@@ -16,14 +16,15 @@ UserDao dao=new UserDaoImpl();
 	
 	//@disabled
 	@Test
-	void testAddEmployee() throws Exception {
-		User user=new User(1006,"Uttam Reddy","Utha123","crime");
+	void testAddUser() throws Exception {
+		User user=new User(1006,"Hardhik","Hardhik123","crime");
 		assertEquals(user, dao.addUser(user));
 	}
 
 //	@Test
-//	void testReadNews() {
-//		fail("Not yet implemented");
+//	void testReadNews() throws Exception {
+//		//fail("Not yet implemented");
+//		//assert(dao.readNews(1006)!=null);
 //	}
 
 }

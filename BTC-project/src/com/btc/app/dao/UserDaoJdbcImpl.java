@@ -151,10 +151,6 @@ public class UserDaoJdbcImpl implements UserDao {
 						//throw new InvalidIdException("Content doesnot exist");
 					}
 
-
-
-
-
 					String descquery="select content from news where title=?";
 					smt=con.prepareStatement(descquery);
 					smt.setString(1,desc);
