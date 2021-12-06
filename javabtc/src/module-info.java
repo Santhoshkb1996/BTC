@@ -1,0 +1,2 @@
+module javabtc {
+}
